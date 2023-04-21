@@ -28,50 +28,25 @@ scissors = '''
 ---.__(___)
 '''
 
+game_images = [rock,paper,scissors]
 print("Welcome to Rock, Paper, Scissors Game!")
 player_choice = int(input("What do you want to choose? 0 for Rock, 1 for Paper, and 2 for Scissors.\n"))
+print(f"You choose\n\n{game_images[player_choice]}")
 
 computer_choice = random.randint(0,2)
+print(f"Computer choose\n\n{game_images[computer_choice]}")
 
-if player_choice == 0:
-  print(f"You choose\n\n{rock}")
-elif player_choice == 1:
-  print(f"You choose\n\n{paper}")
-else:
-  print(f"You choose\n\n{scissors}")
 
-if computer_choice == 0:
-  print(f"Computer choose\n\n{rock}")
-elif computer_choice == 1:
-  print(f"Computer choose\n\n{paper}")
-else:
-  print(f"Computer choose\n\n{scissors}")
-
-if player_choice == 0:
-  if computer_choice == 1:
-    print("You lose")
-  elif computer_choice == 2:
-    print("You win")
-  else:
-    print("Match draw")
-
-elif player_choice == 1:
-  if computer_choice == 0:
-    print("You win")
-  elif computer_choice == 2:
-    print("You lose")
-  else:
-    print("Match draw")
-
-elif player_choice == 2:
-  if computer_choice == 0:
-    print("You lose")
-  elif computer_choice == 1:
-    print("You win")
-  else:
-    print("Match draw")
-
-else:
-  print("Select Correct choice")
-  
+if player_choice >= 3 or player_choice < 0: 
+  print("You typed an invalid number, you lose!") 
+elif player_choice == 0 and computer_choice == 2:
+  print("You win!")
+elif computer_choice == 0 and player_choice == 2:
+  print("You lose")
+elif computer_choice > player_choice:
+  print("You lose")
+elif player_choice > computer_choice:
+  print("You win!")
+elif computer_choice == player_choice:
+  print("It's a draw")
 
