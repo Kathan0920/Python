@@ -1,10 +1,26 @@
-import random 
+############## The Blackjack game ###############
+
+import random
 from art import logo
+import click
+
 cards = [11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10]
 
 def clrscr():
     click.clear()
 
+def check_Blackjack_for_player(sum_of_player_cards):
+    if sum_of_player_cards == 21:
+        return 1
+    else:
+        return 0
+
+def check_Blackjack_for_dealer(sum_of_dealer_cards):
+    if sum_of_dealer_cards == 21:
+        return 1
+    else:
+        return 0
+    
 wantToPlay = input("Want to start Black Jack game? Type 'yes' to start else type 'no'. ").lower()
 
 if wantToPlay == "yes":
@@ -18,20 +34,34 @@ if wantToPlay == "yes":
     for i in range(0, 2):
         player_cards.append(random.choice(cards))
         sum_of_player_cards += player_cards[i]
+        if player_cards[-1] == 11:
+            if not (sum_of_player_cards + 11 <= 21):
+                player_cards[-1] = 1
     
     print(
-        f"Your two cards are = {player_cards} ,  Your cards sum = {sum_of_player_cards}"
+        f"Your cards = {player_cards} ,  Your score = {sum_of_player_cards}"
     )
     
     for i in range(0, 2):
         dealer_cards.append(random.choice(cards))
-    
-    print(f"Dealer's one card is {dealer_cards[0]}")
+
+        
+    print(f"Dealer's one card is {dealer_cards[0]}\n")
     
     for card_value in dealer_cards:
         sum_of_dealer_cards += card_value
     
     pickNextCard = "y"
+
+    if check_Blackjack_for_player(sum_of_player_cards):
+        print(f"Dealer cards = {dealer_cards}, Dealer's score = {sum_of_dealer_cards}")
+        print("Blackjack occured for you, You win!")
+        pickNextCard = "n"
+        
+    elif check_Blackjack_for_dealer(sum_of_dealer_cards):
+        print(f"Dealer cards = {dealer_cards}, Dealer's score = {sum_of_dealer_cards}")
+        print("Blackjack occured for dealer, You lose!")  
+        pickNextCard = "n"
     
     while pickNextCard == "y":
     
@@ -46,9 +76,9 @@ if wantToPlay == "yes":
                     player_cards[-1] = 1
     
             sum_of_player_cards += player_cards[-1]
-            print(f"Your cards are {player_cards},  Your cards sum = {sum_of_player_cards}")
+            print(f"Your cards are {player_cards},  Your score = {sum_of_player_cards}")
             
-        if pickNextCard == "y":
+        if pickNextCard == "y" or pickNextCard == "n":
             if sum_of_dealer_cards <= 16:
                 dealer_cards.append(random.choice(cards))
                 
@@ -57,25 +87,31 @@ if wantToPlay == "yes":
                         dealer_cards[-1] = 1
                         
                 sum_of_dealer_cards += dealer_cards[-1]
-                
+                if check_Blackjack_for_dealer(sum_of_dealer_cards):
+                    print("Blackjack occured for dealer, You lose")
+                    break;
         if pickNextCard == "y" and sum_of_player_cards < 21:
             pickNextCard = "y"
+            
         else:
             pickNextCard = "n"
-            print(f"Dealer cards sum = {sum_of_dealer_cards}")
-    
-        
-    if sum_of_player_cards > 21:
-        print("You lose!")
-        
-    elif sum_of_dealer_cards == sum_of_player_cards:
-        print("Match draw!")
-    
-    elif sum_of_dealer_cards > 21:
-        print("You win!")
-    
-    elif sum_of_player_cards > sum_of_dealer_cards:
-        print("You win!")
-    
-    else:
-        print("You lose!")    
+            
+            print(f"Dealer cards = {dealer_cards}, Dealer's score = {sum_of_dealer_cards}")
+            
+            if sum_of_player_cards > 21 and sum_of_dealer_cards > 21:
+                print("Match draw")
+                
+            elif sum_of_dealer_cards == sum_of_player_cards:
+                print("Match draw")
+            
+            elif sum_of_player_cards > 21:
+                print("You lose")
+                
+            elif sum_of_dealer_cards > 21:
+                print("You win")
+            
+            elif sum_of_player_cards > sum_of_dealer_cards:
+                print("You win")
+            
+            else:
+                print("You lose") 
